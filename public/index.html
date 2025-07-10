@@ -5,13 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TE Style - Controle de Cor e Processo</title>
 
-  <!-- Fontes e Ícones -->
+  <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    script-src 'self' https://cdn.jsdelivr.net;
+    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com;
+    font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com;
+    img-src 'self' data:;
+    connect-src 'self' https://cugfezglvaclawbhtola.supabase.co https://myffywxacmoyhtawvlgn.supabase.co;
+    object-src 'none';
+    base-uri 'self';
+    form-action 'self';
+  ">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
-  <!-- Folha de Estilo Principal (carregada pelo Vite) -->
   <link rel="stylesheet" href="/src/css/style.css" />
 </head>
 <body>
@@ -29,7 +39,6 @@
       <div class="nav-tab" data-tab="report">Relatório Gerencial</div>
     </div>
 
-    <!-- ABA DE PESQUISA DE COR -->
     <div id="search-tab" class="tab-content active">
       <h1>Pesquisar Cores de Produtos</h1>
       <div class="input-group">
@@ -69,7 +78,6 @@
       </div>
     </div>
 
-    <!-- ABA DE BANCO DE DADOS DE COR -->
     <div id="database-color-tab" class="tab-content">
       <h1>Banco de Dados de Inspeções de Cor</h1>
       <div class="search-controls">
@@ -102,7 +110,6 @@
       </div>
     </div>
 
-    <!-- ABA DE CADASTRO DE PRODUTO -->
     <div id="register-tab" class="tab-content">
       <h1>Cadastrar Novo Produto</h1>
       <div class="input-group">
@@ -153,7 +160,6 @@
       </div>
     </div>
 
-    <!-- ABA DE CALCULADORA DELTA -->
     <div id="deltacalculator-tab" class="tab-content">
       <h1>Calculadora de Delta E</h1>
       <div class="calculator-layout">
@@ -198,7 +204,6 @@
       <div id="deltaeresult" class="result-message"></div>
     </div>
 
-    <!-- ABA DE MELHOR CORRESPONDÊNCIA -->
     <div id="bestmatch-tab" class="tab-content">
       <h1>Encontrar Melhor Correspondência</h1>
       <div class="color-samples">
@@ -223,7 +228,6 @@
       <div id="bestmatches" class="results"></div>
     </div>
 
-    <!-- ABA DE CONTROLE DE PROCESSO -->
     <div id="process-control-tab" class="tab-content">
       <h1>Controle de Processo (CMYK)</h1>
       <div class="profile-selector-group">
@@ -284,7 +288,6 @@
       <div id="processControlGlobalMessage" class="result-message" style="display:none; margin-top:15px;"></div>
     </div>
 
-    <!-- ABA DE HISTÓRICO DE PROCESSO -->
     <div id="database-process-tab" class="tab-content">
         <h1>Histórico de Inspeções de Processo</h1>
         <button style="width: auto; margin-bottom: 20px;">Atualizar Lista</button>
@@ -304,7 +307,6 @@
         </div>
     </div>
 
-    <!-- ABA DE RELATÓRIO GERENCIAL -->
     <div id="report-tab" class="tab-content">
         <h1>Relatório Gerencial - Delta E por Produto</h1>
         <div class="controls-section">
@@ -367,7 +369,6 @@
 
   </div>
 
-  <!-- Script Principal da Aplicação (carregado pelo Vite) -->
   <script type="module" src="/src/js/main.js"></script>
 </body>
 </html>
