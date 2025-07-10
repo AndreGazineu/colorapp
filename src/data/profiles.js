@@ -1,4 +1,4 @@
-export const allProfileData = {
+const allProfileData = {
       "2141_Plastimarau_C3_FlexoPower_Maq205_NExT_WSI_BOPP_PET_INT": { "densities": { "cyan": { "min": 1.276, "target": 1.376, "max": 1.476 }, "magenta": { "min": 1.422, "target": 1.522, "max": 1.622 }, "yellow": { "min": 0.928, "target": 1.028, "max": 1.128 }, "black": { "min": 1.426, "target": 1.526, "max": 1.626 } } },
       "2142_Plastimarau_C3_FlexoPower_Maq205_NExT_WSI_PE_INT": { "densities": { "cyan": { "min": 1.242, "target": 1.342, "max": 1.442 }, "magenta": { "min": 1.292, "target": 1.392, "max": 1.492 }, "yellow": { "min": 0.908, "target": 1.008, "max": 1.108 }, "black": { "min": 1.358, "target": 1.458, "max": 1.558 } } },
       "2143_Plastimarau_C3_FlexoPower_Maq205_NExT_WSI_PE_EXT": { "densities": { "cyan": { "min": 0.97, "target": 1.07, "max": 1.17 }, "magenta": { "min": 1.122, "target": 1.222, "max": 1.322 }, "yellow": { "min": 0.642, "target": 0.742, "max": 0.842 }, "black": { "min": 1.064, "target": 1.164, "max": 1.264 } } },
