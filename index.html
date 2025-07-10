@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TE Style - Controle de Cor e Processo</title>
+
+  <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    script-src 'self' https://cdn.jsdelivr.net;
+    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com;
+    font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com;
+    img-src 'self' data:;
+    connect-src 'self' https://cugfezglvaclawbhtola.supabase.co https://myffywxacmoyhtawvlgn.supabase.co;
+    object-src 'none';
+    base-uri 'self';
+    form-action 'self';
+  ">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+  <link rel="stylesheet" href="/src/css/style.css" />
+</head>
+<body>
+  <button class="back-button-fixed" id="fixedbackbutton" style="display:none;">⬅ Voltar</button>
+  
+  <div class="main-container">
+    <div class="nav-tabs">
+      <div class="nav-tab active" data-tab="search">Pesquisar Cor</div>
+      <div class="nav-tab" data-tab="database-color">Inspeções de Cor</div>
+      <div class="nav-tab" data-tab="register">Cadastrar Produto</div>
+      <div class="nav-tab" data-tab="deltacalculator">Calculadora Delta</div>
+      <div class="nav-tab" data-tab="bestmatch">Melhor Correspondência</div>
+      <div class="nav-tab" data-tab="process-control">Controle de Processo</div>
+      <div class="nav-tab" data-tab="database-process">Inspeções de Processo</div>
+      <div class="nav-tab" data-tab="report">Relatório Gerencial</div>
+    </div>
+
+    <div id="search-tab" class="tab-content active">
+      <h1>Pesquisar Cores de Produtos</h1>
+      <div class="input-group">
+        <label for="productcode">Código do Produto:</label>
+        <input type="text" id="productcode" placeholder="Digite o código do produto...">
+      </div>
+      <button>Pesquisar</button>
+      <div class="results" id="results"></div>
+      <div class="inspector" id="inspector">
+        <div class="color-samples">
+          <div class="color-box">
+            <div id="colorsampleref" class="color-sample"></div>
+            <span>Cor Original</span>
+          </div>
+          <div class="color-box">
+            <div id="colorsamplesample" class="color-sample"></div>
+            <span>Cor Inspecionada</span>
+          </div>
+        </div>
+        <input type="number" id="labl" placeholder="Valor L">
+        <input type="number" id="laba" placeholder="Valor a">
+        <input type="number" id="labb" placeholder="Valor b">
+        <input type="text" id="bobinaid" placeholder="Identificação da Bobina">
+        <input type="number" id="opid" placeholder="Número da OP">
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+          <input type="checkbox" id="fixarop" style="width: auto; height: auto;">
+          <label for="fixarop" style="margin-bottom: 0; font-size: 0.9rem; color: var(--text-dark); text-transform: none;">Fixar OP</label>
+        </div>
+        <button>Inspecionar</button>
+        <div id="resultmessage" class="result-message"></div>
+        <div class="color-difference">
+          <div id="deltal"></div>
+          <div id="deltaa"></div>
+          <div id="deltab"></div>
+        </div>
+        <div class="back-button">Voltar</div>
+      </div>
+    </div>
+
+    <div id="database-color-tab" class="tab-content">
+      <h1>Banco de Dados de Inspeções de Cor</h1>
+      <div class="search-controls">
+        <div class="input-group">
+          <label for="databasesearch">Pesquisar Termo:</label>
+          <input type="text" id="databasesearch" placeholder="Produto, status, bobina, OP...">
+        </div>
+        <div class="input-group">
+          <label for="startDateFilter">Data Inicial:</label>
+          <input type="date" id="startDateFilter">
+        </div>
+        <div class="input-group">
+          <label for="endDateFilter">Data Final:</label>
+          <input type="date" id="endDateFilter">
+        </div>
+        <button>Pesquisar</button>
+        <button class="btn-secondary">Limpar / Mostrar Todos</button>
+      </div>
+      <div class="table-container">
+        <table id="databasetable">
+          <thead>
+            <tr>
+              <th>Produto</th><th>L Orig.</th><th>a Orig.</th><th>b Orig.</th>
+              <th>L Insp.</th><th>a Insp.</th><th>b Insp.</th>
+              <th>Delta E</th><th>Status</th><th>Data/Hora</th><th>Bobina</th><th>OP</th>
+            </tr>
+          </thead>
+          <tbody id="databasebody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="register-tab" class="tab-content">
+      <h1>Cadastrar Novo Produto</h1>
+      <div class="input-group">
+        <label for="newproductname">Nome do Produto:</label>
+        <input type="text" id="newproductname" placeholder="Ex: 1426-AMARELO">
+      </div>
+      <div class="input-group">
+        <label for="newproductl">Valor L:</label>
+        <input type="number" id="newproductl" placeholder="0-100">
+      </div>
+      <div class="input-group">
+        <label for="newproducta">Valor a:</label>
+        <input type="number" id="newproducta" placeholder="-128 a 127">
+      </div>
+      <div class="input-group">
+        <label for="newproductb">Valor b:</label>
+        <input type="number" id="newproductb" placeholder="-128 a 127">
+      </div>
+      <div class="color-preview">
+        <div class="input-group">
+          <label>Prévia da Cor:</label>
+          <div id="newcolorpreview" class="color-sample" style="margin: 10px 0;"></div>
+        </div>
+      </div>
+      <button>Cadastrar Produto</button>
+      <div id="registermessage" class="result-message"></div>
+      
+      <div id="productslist">
+        <h2>Produtos Cadastrados</h2>
+        <div class="search-controls">
+            <div class="input-group">
+                <label for="productsearch">Pesquisar produtos cadastrados:</label>
+                <input type="text" id="productsearch" placeholder="Digite para pesquisar...">
+            </div>
+            <button>Pesquisar</button>
+            <button class="btn-secondary">Mostrar Todos</button>
+        </div>
+        <div class="table-container">
+            <table id="productstable">
+              <thead>
+                <tr>
+                  <th>Nome</th><th>L</th><th>a</th><th>b</th><th>Cor</th><th>Ações</th>
+                </tr>
+              </thead>
+              <tbody id="productsbody"></tbody>
+            </table>
+        </div>
+      </div>
+    </div>
+
+    <div id="deltacalculator-tab" class="tab-content">
+      <h1>Calculadora de Delta E</h1>
+      <div class="calculator-layout">
+        <div class="color-column">
+          <div class="color-header">
+            <div class="preview-box" id="ref-preview"></div>
+            <span class="title">Referência</span>
+          </div>
+          <div class="lab-input-group">
+            <label for="refl">L</label>
+            <input type="number" id="refl" placeholder="0-100">
+          </div>
+          <div class="lab-input-group">
+            <label for="refa">A</label>
+            <input type="number" id="refa" placeholder="-128 a 127">
+          </div>
+          <div class="lab-input-group">
+            <label for="refb">B</label>
+            <input type="number" id="refb" placeholder="-128 a 127">
+          </div>
+        </div>
+        <div class="color-column">
+          <div class="color-header">
+            <div class="preview-box" id="sample-preview"></div>
+            <span class="title">Amostra</span>
+          </div>
+          <div class="lab-input-group">
+            <label for="samplel">L</label>
+            <input type="number" id="samplel" placeholder="0-100">
+          </div>
+          <div class="lab-input-group">
+            <label for="samplea">A</label>
+            <input type="number" id="samplea" placeholder="-128 a 127">
+          </div>
+          <div class="lab-input-group">
+            <label for="sampleb">B</label>
+            <input type="number" id="sampleb" placeholder="-128 a 127">
+          </div>
+        </div>
+      </div>
+      <button>Calcular Delta E</button>
+      <div id="deltaeresult" class="result-message"></div>
+    </div>
+
+    <div id="bestmatch-tab" class="tab-content">
+      <h1>Encontrar Melhor Correspondência</h1>
+      <div class="color-samples">
+        <div class="color-box">
+          <div id="bestmatch-input-sample" class="color-sample"></div>
+          <span>Cor de Entrada</span>
+        </div>
+      </div>
+      <div class="input-group">
+        <label for="l1">Valor L:</label>
+        <input type="number" id="l1" placeholder="0-100">
+      </div>
+      <div class="input-group">
+        <label for="a1">Valor a:</label>
+        <input type="number" id="a1" placeholder="-128 a 127">
+      </div>
+      <div class="input-group">
+        <label for="b1">Valor b:</label>
+        <input type="number" id="b1" placeholder="-128 a 127">
+      </div>
+      <button>Encontrar Correspondências</button>
+      <div id="bestmatches" class="results"></div>
+    </div>
+
+    <div id="process-control-tab" class="tab-content">
+      <h1>Controle de Processo (CMYK)</h1>
+      <div class="profile-selector-group">
+        <div class="input-group">
+            <label for="pc_profile_select">Selecionar Perfil de Densidade:</label>
+            <select id="pc_profile_select"></select>
+        </div>
+        <div class="input-group">
+            <label for="pc_product_name">Produto:</label>
+            <input type="text" id="pc_product_name" placeholder="Nome ou código do produto">
+        </div>
+        <div class="input-group">
+            <label for="pc_op_number">Número da OP:</label>
+            <input type="text" id="pc_op_number" placeholder="Ex: 12345">
+        </div>
+        <div class="input-group">
+            <label for="pc_daughter_coil_id">ID Bobina Filha:</label>
+            <input type="text" id="pc_daughter_coil_id" placeholder="Ex: BF-01">
+        </div>
+      </div>
+      <h2>Densidades CMYK</h2>
+      <p id="current_profile_note_densities" style="font-size:0.8em; margin-bottom:10px;">Padrões de densidade baseados no perfil selecionado.</p>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Cor</th><th>Mínimo</th><th>Padrão</th><th>Máximo</th><th>Medido</th><th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="densities_tbody"></tbody>
+        </table>
+      </div>
+      <h2>Valor de Ponto (TVA - % no patch de 50%)</h2>
+      <p style="font-size:0.8em; margin-bottom:10px;">Valores de referência da Curva C3 para o patch de 50% (fixo).</p>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Cor</th><th>Mínimo (%)</th><th>Padrão (%)</th><th>Máximo (%)</th><th>Medido (%)</th><th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="tva_tbody"></tbody>
+        </table>
+      </div>
+      <h2>Opacidade do Branco (%)</h2>
+      <p style="font-size:0.8em; margin-bottom:10px;">Padrões de opacidade (fixo).</p>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Item</th><th>Mínimo</th><th>Padrão</th><th>Máximo</th><th>Medido</th><th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="opacity_tbody"></tbody>
+        </table>
+      </div>
+      <button id="verifyAndSaveButton" style="margin-top: 30px; width: auto;">Verificar e Salvar Dados</button>
+      <div id="processControlGlobalMessage" class="result-message" style="display:none; margin-top:15px;"></div>
+    </div>
+
+    <div id="database-process-tab" class="tab-content">
+        <h1>Histórico de Inspeções de Processo</h1>
+        <button style="width: auto; margin-bottom: 20px;">Atualizar Lista</button>
+        <div class="table-container">
+            <table id="inspectionsTable">
+                <thead>
+                    <tr>
+                        <th>Data</th><th>Produto</th><th>Bobina</th><th>Perfil</th><th>Status</th>
+                        <th>Dens C</th><th>Dens M</th><th>Dens Y</th><th>Dens K</th>
+                        <th>TVA C</th><th>TVA M</th><th>TVA Y</th><th>TVA K</th><th>Opac.</th>
+                    </tr>
+                </thead>
+                <tbody id="inspectionsTbody">
+                    <tr><td colspan="14" style="text-align:center;">Carregando dados...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="report-tab" class="tab-content">
+        <h1>Relatório Gerencial - Delta E por Produto</h1>
+        <div class="controls-section">
+            <div class="input-group">
+                <label for="reportStartDate">Data Inicial:</label>
+                <input type="date" id="reportStartDate" />
+            </div>
+            <div class="input-group">
+                <label for="reportEndDate">Data Final:</label>
+                <input type="date" id="reportEndDate" />
+            </div>
+            <div class="input-group">
+                <label for="reportOp">OP (obrigatório p/ laudo):</label>
+                <input type="number" id="reportOp" placeholder="Número da OP" />
+            </div>
+            <button id="generateReportBtn">Gerar Relatório</button>
+            <button id="downloadExcelBtn" class="btn-secondary" disabled>Baixar Excel</button>
+            <button id="generateLaudoBtn" class="btn-secondary">Gerar Laudo</button>
+        </div>
+        <div id="reportPeriod" style="text-align: center; font-size: 0.9rem; color: var(--text-light); margin-bottom: 25px; font-family: var(--font-mono);">Selecione o período e clique em "Gerar Relatório".</div>
+        <div class="stats-container" id="reportStatsContainer">
+            <div class="stat-card total">
+                <i class="fas fa-clipboard-check"></i>
+                <div class="stat-title">Total de Inspeções</div>
+                <div class="stat-value" id="statTotalValue">-</div>
+            </div>
+            <div class="stat-card approved">
+                <i class="fas fa-check-circle"></i>
+                <div class="stat-title">Aprovadas</div>
+                <div class="stat-value" id="statApprovedValue">-</div>
+            </div>
+            <div class="stat-card rejected">
+                <i class="fas fa-times-circle"></i>
+                <div class="stat-title">Reprovadas</div>
+                <div class="stat-value" id="statRejectedValue">-</div>
+            </div>
+            <div class="stat-card rate">
+                <i class="fas fa-percentage"></i>
+                <div class="stat-title">Taxa de Aprovação</div>
+                <div class="stat-value" id="statRateValue">-%</div>
+            </div>
+        </div>
+        <h2>Detalhes por Produto</h2>
+        <div id="resultsArea">
+            <div class="placeholder-message" id="resultsPlaceholder">Aguardando geração do relatório…</div>
+        </div>
+        <h2>Laudo Estatístico da OP</h2>
+        <div id="laudoArea">
+            <div class="placeholder-message">Informe uma OP e clique em "Gerar Laudo".</div>
+        </div>
+        <div class="histogram-container">
+            <div class="histogram-header">Histograma de ΔE por Cor</div>
+            <select id="colorSelect">
+                <option value="">Selecione uma cor (produto)...</option>
+            </select>
+            <button id="histogramBtn" disabled>Gerar Histograma</button>
+            <canvas id="histogramChart"></canvas>
+        </div>
+    </div>
+
+  </div>
+
+  <script type="module" src="/src/js/main.js"></script>
+</body>
+</html>
