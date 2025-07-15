@@ -25,5 +25,21 @@ const allProfileData = {
       "0001_EPR_FTD_WSI_PE_PET_INT": { "densities": { "cyan": { "min": 1.43, "target": 1.53, "max": 1.63 }, "magenta": { "min": 1.44, "target": 1.54, "max": 1.64 }, "yellow": { "min": 1.04, "target": 1.14, "max": 1.24 }, "black": { "min": 1.45, "target": 1.55, "max": 1.65 } } },
       "0002_EPR_FTD_WSI_PE_EXT": { "densities": { "cyan": { "min": 1.25, "target": 1.35, "max": 1.45 }, "magenta": { "min": 1.27, "target": 1.37, "max": 1.47 }, "yellow": { "min": 0.89, "target": 0.99, "max": 1.09 }, "black": { "min": 1.49, "target": 1.59, "max": 1.69 } } },
       "0003_EPR_FTD_WSI_PE_PIG_EXT": { "densities": { "cyan": { "min": 1.37, "target": 1.47, "max": 1.57 }, "magenta": { "min": 1.38, "target": 1.48, "max": 1.58 }, "yellow": { "min": 0.98, "target": 1.08, "max": 1.18 }, "black": { "min": 1.39, "target": 1.49, "max": 1.59 } } },
-      "5373_Plastimarau_GE_Maq206_NEF_XPS_PE_PIG_EXT_TSA_60Lpc_DotLess": { "densities": { "cyan": { "min": 1.41, "target": 1.51, "max": 1.61 }, "magenta": { "min": 1.48, "target": 1.58, "max": 1.68 }, "yellow": { "min": 0.91, "target": 1.01, "max": 1.11 }, "black": { "min": 1.28, "target": 1.38, "max": 1.48 } } }
+      "5373_Plastimarau_GE_Maq206_NEF_XPS_PE_PIG_EXT_TSA_60Lpc_DotLess": {
+    "densities": {
+      "cyan":    { "min": 1.41, "target": 1.51, "max": 1.61 },
+      "magenta": { "min": 1.48, "target": 1.58, "max": 1.68 },
+      "yellow":  { "min": 0.91, "target": 1.01, "max": 1.11 },
+      "black":   { "min": 1.28, "target": 1.38, "max": 1.48 }
+    }
+  }
+
+  "0004_Plastimarau_Flexotech_PE_PIG_ESXR_64lpc_TSA": {
+    "densities": {
+      "cyan":    { "min": 1.35, "target": 1.45, "max": 1.55 },
+      "magenta": { "min": 1.35, "target": 1.45, "max": 1.55 },
+      "yellow":  { "min": 0.90, "target": 1.00, "max": 1.10 },
+      "black":   { "min": 1.60, "target": 1.70, "max": 1.80 }
+    }
+  }
 };
