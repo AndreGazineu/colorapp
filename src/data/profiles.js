@@ -248,3 +248,11 @@ const allProfileData = {
     }
   }
 };
+"6513_Plastimarau_GE_Flexopower_Maq206_NX_B01_PET_Transp_INT_cBco_52Lpc_DL2": {
+  "densities": {
+    "cyan": { "min": 1.60, "target": 1.70, "max": 1.80 },
+    "magenta": { "min": 1.51, "target": 1.61, "max": 1.71 },
+    "yellow": { "min": 0.84, "target": 0.94, "max": 1.04 },
+    "black": { "min": 1.69, "target": 1.79, "max": 1.89 }
+  }
+}
